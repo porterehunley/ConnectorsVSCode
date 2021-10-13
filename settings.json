@@ -1,9 +1,0 @@
-{
-  "connectorId": "shared_nsf-20data-5f105424baebf560a1-5f257d369e3fbbafd1",
-  "environment": "b18407c8-99ae-49f4-8e65-f9a8543c10e3",
-  "apiProperties": "/Users/porterhunley/connectors/swagger/apiProperties.json",
-  "apiDefinition": "/Users/porterhunley/connectors/swagger/apiDefinition.swagger.json",
-  "icon": null,
-  "powerAppsUrl": "https://api.powerapps.com",
-  "powerAppsApiVersion": "2016-11-01"
-}

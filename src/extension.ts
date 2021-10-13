@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import {PythonShell, Options} from 'python-shell';
+import * as nsfData from '../src/nsfdata';
 
 
 // this method is called when your extension is activated
@@ -15,7 +16,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('connectors.helloWorld', () => {
+	let disposable = vscode.commands.registerCommand('connectors.addConnector', () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
 		
@@ -35,11 +36,12 @@ export function activate(context: vscode.ExtensionContext) {
 			// 	vscode.window.showInformationMessage(message);
 			// });
 
-			// Get the connectors
-			let createOptions = {...loginOptions, args: ['create', '-e', 'default', '--api-prop', '/Users/porterhunley/connectors/swagger/apiProperties.json', '--api-def', '/Users/porterhunley/connectors/swagger/apiDefinition.swagger.json']};
+			let createOptions = {...loginOptions, args: ['create', '-e', 'b18407c8-99ae-49f4-8e65-f9a8543c10e3', '--api-prop', '/Users/porterhunley/connectors/swagger/apiProperties.json', '--api-def', '/Users/porterhunley/connectors/swagger/apiDefinition.swagger.json']};
 			let createPyshell = new PythonShell('paconn', createOptions);
+			let apiRegistration: string;
 			createPyshell.on('message', function (message) {
-				vscode.window.showInformationMessage(message);
+				console.log(message);
+				apiRegistration = message;
 			});
 
 			createPyshell.on('stderr', function (stderr) {
