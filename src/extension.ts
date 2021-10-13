@@ -42,7 +42,6 @@ export function activate(context: vscode.ExtensionContext) {
 				vscode.window.showInformationMessage(message);
 			});
 
-			// receive a message in text mode
 			createPyshell.on('stderr', function (stderr) {
 				console.log(stderr);
 			});
