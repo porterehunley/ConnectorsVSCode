@@ -1,7 +1,8 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import * as nsfData from '../src/clients/nsfdata';
+import {PythonShell, Options} from 'python-shell';
+
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -17,10 +18,43 @@ export function activate(context: vscode.ExtensionContext) {
 	let disposable = vscode.commands.registerCommand('connectors.helloWorld', () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Connectors!');
-		let viewDesignApi = new nsfData.ViewDesignApi;
 		
-		console.log(viewDesignApi.getViewDesignByName());
+		// Make sure we can login to the cli
+
+		try {
+			let loginOptions: Options = {
+				mode: "text",
+				pythonPath: __dirname + '/../src/tools/paconn-cli/venv/bin/python3',
+				pythonOptions: ['-u'],
+				scriptPath: __dirname + '/../src/tools/paconn-cli/venv/lib/python3.8/site-packages',
+				args: ['login']
+			};
+
+			// let loginPyshell = new PythonShell('paconn', loginOptions);
+			// loginPyshell.on('message', function (message) {
+			// 	vscode.window.showInformationMessage(message);
+			// });
+
+			// Get the connectors
+			let createOptions = {...loginOptions, args: ['create', '-e', 'default', '--api-prop', '/Users/porterhunley/connectors/swagger/apiProperties.json', '--api-def', '/Users/porterhunley/connectors/swagger/apiDefinition.swagger.json']};
+			let createPyshell = new PythonShell('paconn', createOptions);
+			createPyshell.on('message', function (message) {
+				vscode.window.showInformationMessage(message);
+			});
+
+			// receive a message in text mode
+			createPyshell.on('stderr', function (stderr) {
+				console.log(stderr);
+			});
+
+			createPyshell.on('error', function (stderr) {
+				console.log(stderr);
+			});
+
+			// vscode.env.openExternal(vscode.Uri.parse("https://www.stackoverflow.com/"));
+		} catch (error) {
+			console.log(error);
+		}
 	});
 
 	context.subscriptions.push(disposable);
