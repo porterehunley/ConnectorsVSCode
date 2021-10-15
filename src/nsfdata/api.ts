@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * NSF Data
+ * NSF Data s
  * NSF Data Connector provides access to any HCL Domino NSF database as well as IBM Domino NSF database (from version 9.0.1) for which Domino Access Services (DAS) are enabled. The Connector represents NSF databases, views, view entries, and documents in JSON format.
  *
  * The version of the OpenAPI document: 1.0
@@ -431,10 +431,11 @@ export const AttachmentApiAxiosParamCreator = function (configuration?: Configur
          * @param {string} docUnid Universal ID of the document.
          * @param {string} itemName Name of the item associated with the attachment.
          * @param {string} fileName Attachment file name.
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteAttachment: async (folder: string, database: string, docUnid: string, itemName: string, fileName: string, options: any = {}): Promise<RequestArgs> => {
+        deleteAttachment: async (folder: string, database: string, docUnid: string, itemName: string, fileName: string, authorization: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'folder' is not null or undefined
             assertParamExists('deleteAttachment', 'folder', folder)
             // verify required parameter 'database' is not null or undefined
@@ -445,6 +446,8 @@ export const AttachmentApiAxiosParamCreator = function (configuration?: Configur
             assertParamExists('deleteAttachment', 'itemName', itemName)
             // verify required parameter 'fileName' is not null or undefined
             assertParamExists('deleteAttachment', 'fileName', fileName)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('deleteAttachment', 'authorization', authorization)
             const localVarPath = `/{folder}/{database}/api/data/documents/unid/{docUnid}/{itemName}/{fileName}`
                 .replace(`{${"folder"}}`, encodeURIComponent(String(folder)))
                 .replace(`{${"database"}}`, encodeURIComponent(String(database)))
@@ -466,6 +469,10 @@ export const AttachmentApiAxiosParamCreator = function (configuration?: Configur
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
@@ -485,10 +492,11 @@ export const AttachmentApiAxiosParamCreator = function (configuration?: Configur
          * @param {string} docUnid Universal ID of the document.
          * @param {string} itemName Name of the item associated with the attachment.
          * @param {string} fileName Attachment file name.
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAttachment: async (folder: string, database: string, docUnid: string, itemName: string, fileName: string, options: any = {}): Promise<RequestArgs> => {
+        getAttachment: async (folder: string, database: string, docUnid: string, itemName: string, fileName: string, authorization: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'folder' is not null or undefined
             assertParamExists('getAttachment', 'folder', folder)
             // verify required parameter 'database' is not null or undefined
@@ -499,6 +507,8 @@ export const AttachmentApiAxiosParamCreator = function (configuration?: Configur
             assertParamExists('getAttachment', 'itemName', itemName)
             // verify required parameter 'fileName' is not null or undefined
             assertParamExists('getAttachment', 'fileName', fileName)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getAttachment', 'authorization', authorization)
             const localVarPath = `/{folder}/{database}/api/data/documents/unid/{docUnid}/{itemName}/{fileName}`
                 .replace(`{${"folder"}}`, encodeURIComponent(String(folder)))
                 .replace(`{${"database"}}`, encodeURIComponent(String(database)))
@@ -519,6 +529,10 @@ export const AttachmentApiAxiosParamCreator = function (configuration?: Configur
             // authentication basic_auth required
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
 
 
     
@@ -549,11 +563,12 @@ export const AttachmentApiFp = function(configuration?: Configuration) {
          * @param {string} docUnid Universal ID of the document.
          * @param {string} itemName Name of the item associated with the attachment.
          * @param {string} fileName Attachment file name.
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteAttachment(folder: string, database: string, docUnid: string, itemName: string, fileName: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteAttachment(folder, database, docUnid, itemName, fileName, options);
+        async deleteAttachment(folder: string, database: string, docUnid: string, itemName: string, fileName: string, authorization: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteAttachment(folder, database, docUnid, itemName, fileName, authorization, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -564,11 +579,12 @@ export const AttachmentApiFp = function(configuration?: Configuration) {
          * @param {string} docUnid Universal ID of the document.
          * @param {string} itemName Name of the item associated with the attachment.
          * @param {string} fileName Attachment file name.
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAttachment(folder: string, database: string, docUnid: string, itemName: string, fileName: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAttachment(folder, database, docUnid, itemName, fileName, options);
+        async getAttachment(folder: string, database: string, docUnid: string, itemName: string, fileName: string, authorization: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAttachment(folder, database, docUnid, itemName, fileName, authorization, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -589,11 +605,12 @@ export const AttachmentApiFactory = function (configuration?: Configuration, bas
          * @param {string} docUnid Universal ID of the document.
          * @param {string} itemName Name of the item associated with the attachment.
          * @param {string} fileName Attachment file name.
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteAttachment(folder: string, database: string, docUnid: string, itemName: string, fileName: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deleteAttachment(folder, database, docUnid, itemName, fileName, options).then((request) => request(axios, basePath));
+        deleteAttachment(folder: string, database: string, docUnid: string, itemName: string, fileName: string, authorization: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteAttachment(folder, database, docUnid, itemName, fileName, authorization, options).then((request) => request(axios, basePath));
         },
         /**
          * Reads an attachment
@@ -603,11 +620,12 @@ export const AttachmentApiFactory = function (configuration?: Configuration, bas
          * @param {string} docUnid Universal ID of the document.
          * @param {string} itemName Name of the item associated with the attachment.
          * @param {string} fileName Attachment file name.
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAttachment(folder: string, database: string, docUnid: string, itemName: string, fileName: string, options?: any): AxiosPromise<void> {
-            return localVarFp.getAttachment(folder, database, docUnid, itemName, fileName, options).then((request) => request(axios, basePath));
+        getAttachment(folder: string, database: string, docUnid: string, itemName: string, fileName: string, authorization: string, options?: any): AxiosPromise<void> {
+            return localVarFp.getAttachment(folder, database, docUnid, itemName, fileName, authorization, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -627,12 +645,13 @@ export class AttachmentApi extends BaseAPI {
      * @param {string} docUnid Universal ID of the document.
      * @param {string} itemName Name of the item associated with the attachment.
      * @param {string} fileName Attachment file name.
+     * @param {string} authorization 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AttachmentApi
      */
-    public deleteAttachment(folder: string, database: string, docUnid: string, itemName: string, fileName: string, options?: any) {
-        return AttachmentApiFp(this.configuration).deleteAttachment(folder, database, docUnid, itemName, fileName, options).then((request) => request(this.axios, this.basePath));
+    public deleteAttachment(folder: string, database: string, docUnid: string, itemName: string, fileName: string, authorization: string, options?: any) {
+        return AttachmentApiFp(this.configuration).deleteAttachment(folder, database, docUnid, itemName, fileName, authorization, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -643,12 +662,13 @@ export class AttachmentApi extends BaseAPI {
      * @param {string} docUnid Universal ID of the document.
      * @param {string} itemName Name of the item associated with the attachment.
      * @param {string} fileName Attachment file name.
+     * @param {string} authorization 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AttachmentApi
      */
-    public getAttachment(folder: string, database: string, docUnid: string, itemName: string, fileName: string, options?: any) {
-        return AttachmentApiFp(this.configuration).getAttachment(folder, database, docUnid, itemName, fileName, options).then((request) => request(this.axios, this.basePath));
+    public getAttachment(folder: string, database: string, docUnid: string, itemName: string, fileName: string, authorization: string, options?: any) {
+        return AttachmentApiFp(this.configuration).getAttachment(folder, database, docUnid, itemName, fileName, authorization, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -766,6 +786,7 @@ export const DocumentApiAxiosParamCreator = function (configuration?: Configurat
          * @summary Creates a new document
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
+         * @param {string} authorization 
          * @param {Document} document The document to create.
          * @param {string} [form] Associates a database form with the document. 
          * @param {boolean} [computewithform] When &#x60;true&#x60;, runs the associated form formulas against the request data before posting the data. You must identify the form. 
@@ -773,11 +794,13 @@ export const DocumentApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createDocument: async (folder: string, database: string, document: Document, form?: string, computewithform?: boolean, parentid?: string, options: any = {}): Promise<RequestArgs> => {
+        createDocument: async (folder: string, database: string, authorization: string, document: Document, form?: string, computewithform?: boolean, parentid?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'folder' is not null or undefined
             assertParamExists('createDocument', 'folder', folder)
             // verify required parameter 'database' is not null or undefined
             assertParamExists('createDocument', 'database', database)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('createDocument', 'authorization', authorization)
             // verify required parameter 'document' is not null or undefined
             assertParamExists('createDocument', 'document', document)
             const localVarPath = `/{folder}/{database}/api/data/documents`
@@ -810,6 +833,10 @@ export const DocumentApiAxiosParamCreator = function (configuration?: Configurat
                 localVarQueryParameter['parentid'] = parentid;
             }
 
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -830,17 +857,20 @@ export const DocumentApiAxiosParamCreator = function (configuration?: Configurat
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} docUnid Universal ID of the document.
+         * @param {string} authorization 
          * @param {string} [ifUnmodifiedSince] Date and time in RFC 1123 time format (for example,  &#x60;Tue, 23 Aug 2011 21:35:18 GMT&#x60;) as previously returned in the  &#x60;Last-Modified&#x60; response header of a GET for the same document. the operation succeeds only if the document has not been modified since the specified date. 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteDocument: async (folder: string, database: string, docUnid: string, ifUnmodifiedSince?: string, options: any = {}): Promise<RequestArgs> => {
+        deleteDocument: async (folder: string, database: string, docUnid: string, authorization: string, ifUnmodifiedSince?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'folder' is not null or undefined
             assertParamExists('deleteDocument', 'folder', folder)
             // verify required parameter 'database' is not null or undefined
             assertParamExists('deleteDocument', 'database', database)
             // verify required parameter 'docUnid' is not null or undefined
             assertParamExists('deleteDocument', 'docUnid', docUnid)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('deleteDocument', 'authorization', authorization)
             const localVarPath = `/{folder}/{database}/api/data/documents/unid/{docUnid}`
                 .replace(`{${"folder"}}`, encodeURIComponent(String(folder)))
                 .replace(`{${"database"}}`, encodeURIComponent(String(database)))
@@ -864,6 +894,10 @@ export const DocumentApiAxiosParamCreator = function (configuration?: Configurat
                 localVarHeaderParameter['If-Unmodified-Since'] = String(ifUnmodifiedSince);
             }
 
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
@@ -881,6 +915,7 @@ export const DocumentApiAxiosParamCreator = function (configuration?: Configurat
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} docUnid Universal ID of the document.
+         * @param {string} authorization 
          * @param {boolean} [hidden] When &#x60;true&#x60;, emits hidden properties.  Hidden properties have names beginning with &#x60;$&#x60;, for example, &#x60;\&quot;$UpdatedBy\&quot;:\&quot;CN&#x3D;Admin/O&#x3D;Your Org\&quot;&#x60;. 
          * @param {boolean} [multipart] When &#x60;false&#x60;, formats rich text as a single HTML part rather than multipart. The default value is &#x60;true&#x60;. 
          * @param {boolean} [strongtype] When &#x60;true&#x60;, displays date-time items as objects with type and data elements. See the examples. Rich text items always use strongtype format. 
@@ -892,13 +927,15 @@ export const DocumentApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDocument: async (folder: string, database: string, docUnid: string, hidden?: boolean, multipart?: boolean, strongtype?: boolean, lowercasefields?: boolean, fields?: string, markread?: boolean, attachmentlinks?: boolean, ifModifiedSince?: string, options: any = {}): Promise<RequestArgs> => {
+        getDocument: async (folder: string, database: string, docUnid: string, authorization: string, hidden?: boolean, multipart?: boolean, strongtype?: boolean, lowercasefields?: boolean, fields?: string, markread?: boolean, attachmentlinks?: boolean, ifModifiedSince?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'folder' is not null or undefined
             assertParamExists('getDocument', 'folder', folder)
             // verify required parameter 'database' is not null or undefined
             assertParamExists('getDocument', 'database', database)
             // verify required parameter 'docUnid' is not null or undefined
             assertParamExists('getDocument', 'docUnid', docUnid)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getDocument', 'authorization', authorization)
             const localVarPath = `/{folder}/{database}/api/data/documents/unid/{docUnid}`
                 .replace(`{${"folder"}}`, encodeURIComponent(String(folder)))
                 .replace(`{${"database"}}`, encodeURIComponent(String(database)))
@@ -950,6 +987,10 @@ export const DocumentApiAxiosParamCreator = function (configuration?: Configurat
                 localVarHeaderParameter['If-Modified-Since'] = String(ifModifiedSince);
             }
 
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
@@ -967,6 +1008,7 @@ export const DocumentApiAxiosParamCreator = function (configuration?: Configurat
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} docUnid Universal ID of the document.
+         * @param {string} authorization 
          * @param {Document} document The document properties to update.
          * @param {string} [form] Associates a database form with the document. 
          * @param {boolean} [computewithform] When &#x60;true&#x60;, runs the associated form formulas against the request data before posting the data. You must identify the form. 
@@ -974,13 +1016,15 @@ export const DocumentApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateDocument: async (folder: string, database: string, docUnid: string, document: Document, form?: string, computewithform?: boolean, ifUnmodifiedSince?: string, options: any = {}): Promise<RequestArgs> => {
+        updateDocument: async (folder: string, database: string, docUnid: string, authorization: string, document: Document, form?: string, computewithform?: boolean, ifUnmodifiedSince?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'folder' is not null or undefined
             assertParamExists('updateDocument', 'folder', folder)
             // verify required parameter 'database' is not null or undefined
             assertParamExists('updateDocument', 'database', database)
             // verify required parameter 'docUnid' is not null or undefined
             assertParamExists('updateDocument', 'docUnid', docUnid)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('updateDocument', 'authorization', authorization)
             // verify required parameter 'document' is not null or undefined
             assertParamExists('updateDocument', 'document', document)
             const localVarPath = `/{folder}/{database}/api/data/documents/unid/{docUnid}`
@@ -1014,6 +1058,10 @@ export const DocumentApiAxiosParamCreator = function (configuration?: Configurat
                 localVarHeaderParameter['If-Unmodified-Since'] = String(ifUnmodifiedSince);
             }
 
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -1034,6 +1082,7 @@ export const DocumentApiAxiosParamCreator = function (configuration?: Configurat
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} docUnid Universal ID of the document.
+         * @param {string} authorization 
          * @param {Document} document The document properties to update.
          * @param {string} [form] Associates a database form with the document. 
          * @param {boolean} [computewithform] When &#x60;true&#x60;, runs the associated form formulas against the request data before posting the data. You must identify the form. 
@@ -1041,13 +1090,15 @@ export const DocumentApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateDocumentItems: async (folder: string, database: string, docUnid: string, document: Document, form?: string, computewithform?: boolean, ifUnmodifiedSince?: string, options: any = {}): Promise<RequestArgs> => {
+        updateDocumentItems: async (folder: string, database: string, docUnid: string, authorization: string, document: Document, form?: string, computewithform?: boolean, ifUnmodifiedSince?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'folder' is not null or undefined
             assertParamExists('updateDocumentItems', 'folder', folder)
             // verify required parameter 'database' is not null or undefined
             assertParamExists('updateDocumentItems', 'database', database)
             // verify required parameter 'docUnid' is not null or undefined
             assertParamExists('updateDocumentItems', 'docUnid', docUnid)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('updateDocumentItems', 'authorization', authorization)
             // verify required parameter 'document' is not null or undefined
             assertParamExists('updateDocumentItems', 'document', document)
             const localVarPath = `/{folder}/{database}/api/data/documents/unid/{docUnid}`
@@ -1081,6 +1132,10 @@ export const DocumentApiAxiosParamCreator = function (configuration?: Configurat
                 localVarHeaderParameter['If-Unmodified-Since'] = String(ifUnmodifiedSince);
             }
 
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -1110,6 +1165,7 @@ export const DocumentApiFp = function(configuration?: Configuration) {
          * @summary Creates a new document
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
+         * @param {string} authorization 
          * @param {Document} document The document to create.
          * @param {string} [form] Associates a database form with the document. 
          * @param {boolean} [computewithform] When &#x60;true&#x60;, runs the associated form formulas against the request data before posting the data. You must identify the form. 
@@ -1117,8 +1173,8 @@ export const DocumentApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createDocument(folder: string, database: string, document: Document, form?: string, computewithform?: boolean, parentid?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createDocument(folder, database, document, form, computewithform, parentid, options);
+        async createDocument(folder: string, database: string, authorization: string, document: Document, form?: string, computewithform?: boolean, parentid?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createDocument(folder, database, authorization, document, form, computewithform, parentid, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1127,12 +1183,13 @@ export const DocumentApiFp = function(configuration?: Configuration) {
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} docUnid Universal ID of the document.
+         * @param {string} authorization 
          * @param {string} [ifUnmodifiedSince] Date and time in RFC 1123 time format (for example,  &#x60;Tue, 23 Aug 2011 21:35:18 GMT&#x60;) as previously returned in the  &#x60;Last-Modified&#x60; response header of a GET for the same document. the operation succeeds only if the document has not been modified since the specified date. 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteDocument(folder: string, database: string, docUnid: string, ifUnmodifiedSince?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteDocument(folder, database, docUnid, ifUnmodifiedSince, options);
+        async deleteDocument(folder: string, database: string, docUnid: string, authorization: string, ifUnmodifiedSince?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteDocument(folder, database, docUnid, authorization, ifUnmodifiedSince, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1141,6 +1198,7 @@ export const DocumentApiFp = function(configuration?: Configuration) {
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} docUnid Universal ID of the document.
+         * @param {string} authorization 
          * @param {boolean} [hidden] When &#x60;true&#x60;, emits hidden properties.  Hidden properties have names beginning with &#x60;$&#x60;, for example, &#x60;\&quot;$UpdatedBy\&quot;:\&quot;CN&#x3D;Admin/O&#x3D;Your Org\&quot;&#x60;. 
          * @param {boolean} [multipart] When &#x60;false&#x60;, formats rich text as a single HTML part rather than multipart. The default value is &#x60;true&#x60;. 
          * @param {boolean} [strongtype] When &#x60;true&#x60;, displays date-time items as objects with type and data elements. See the examples. Rich text items always use strongtype format. 
@@ -1152,8 +1210,8 @@ export const DocumentApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getDocument(folder: string, database: string, docUnid: string, hidden?: boolean, multipart?: boolean, strongtype?: boolean, lowercasefields?: boolean, fields?: string, markread?: boolean, attachmentlinks?: boolean, ifModifiedSince?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Document>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getDocument(folder, database, docUnid, hidden, multipart, strongtype, lowercasefields, fields, markread, attachmentlinks, ifModifiedSince, options);
+        async getDocument(folder: string, database: string, docUnid: string, authorization: string, hidden?: boolean, multipart?: boolean, strongtype?: boolean, lowercasefields?: boolean, fields?: string, markread?: boolean, attachmentlinks?: boolean, ifModifiedSince?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Document>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDocument(folder, database, docUnid, authorization, hidden, multipart, strongtype, lowercasefields, fields, markread, attachmentlinks, ifModifiedSince, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1162,6 +1220,7 @@ export const DocumentApiFp = function(configuration?: Configuration) {
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} docUnid Universal ID of the document.
+         * @param {string} authorization 
          * @param {Document} document The document properties to update.
          * @param {string} [form] Associates a database form with the document. 
          * @param {boolean} [computewithform] When &#x60;true&#x60;, runs the associated form formulas against the request data before posting the data. You must identify the form. 
@@ -1169,8 +1228,8 @@ export const DocumentApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateDocument(folder: string, database: string, docUnid: string, document: Document, form?: string, computewithform?: boolean, ifUnmodifiedSince?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateDocument(folder, database, docUnid, document, form, computewithform, ifUnmodifiedSince, options);
+        async updateDocument(folder: string, database: string, docUnid: string, authorization: string, document: Document, form?: string, computewithform?: boolean, ifUnmodifiedSince?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateDocument(folder, database, docUnid, authorization, document, form, computewithform, ifUnmodifiedSince, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1179,6 +1238,7 @@ export const DocumentApiFp = function(configuration?: Configuration) {
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} docUnid Universal ID of the document.
+         * @param {string} authorization 
          * @param {Document} document The document properties to update.
          * @param {string} [form] Associates a database form with the document. 
          * @param {boolean} [computewithform] When &#x60;true&#x60;, runs the associated form formulas against the request data before posting the data. You must identify the form. 
@@ -1186,8 +1246,8 @@ export const DocumentApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateDocumentItems(folder: string, database: string, docUnid: string, document: Document, form?: string, computewithform?: boolean, ifUnmodifiedSince?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateDocumentItems(folder, database, docUnid, document, form, computewithform, ifUnmodifiedSince, options);
+        async updateDocumentItems(folder: string, database: string, docUnid: string, authorization: string, document: Document, form?: string, computewithform?: boolean, ifUnmodifiedSince?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateDocumentItems(folder, database, docUnid, authorization, document, form, computewithform, ifUnmodifiedSince, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1205,6 +1265,7 @@ export const DocumentApiFactory = function (configuration?: Configuration, baseP
          * @summary Creates a new document
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
+         * @param {string} authorization 
          * @param {Document} document The document to create.
          * @param {string} [form] Associates a database form with the document. 
          * @param {boolean} [computewithform] When &#x60;true&#x60;, runs the associated form formulas against the request data before posting the data. You must identify the form. 
@@ -1212,8 +1273,8 @@ export const DocumentApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createDocument(folder: string, database: string, document: Document, form?: string, computewithform?: boolean, parentid?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.createDocument(folder, database, document, form, computewithform, parentid, options).then((request) => request(axios, basePath));
+        createDocument(folder: string, database: string, authorization: string, document: Document, form?: string, computewithform?: boolean, parentid?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.createDocument(folder, database, authorization, document, form, computewithform, parentid, options).then((request) => request(axios, basePath));
         },
         /**
          * Deletes a document
@@ -1221,12 +1282,13 @@ export const DocumentApiFactory = function (configuration?: Configuration, baseP
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} docUnid Universal ID of the document.
+         * @param {string} authorization 
          * @param {string} [ifUnmodifiedSince] Date and time in RFC 1123 time format (for example,  &#x60;Tue, 23 Aug 2011 21:35:18 GMT&#x60;) as previously returned in the  &#x60;Last-Modified&#x60; response header of a GET for the same document. the operation succeeds only if the document has not been modified since the specified date. 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteDocument(folder: string, database: string, docUnid: string, ifUnmodifiedSince?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deleteDocument(folder, database, docUnid, ifUnmodifiedSince, options).then((request) => request(axios, basePath));
+        deleteDocument(folder: string, database: string, docUnid: string, authorization: string, ifUnmodifiedSince?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteDocument(folder, database, docUnid, authorization, ifUnmodifiedSince, options).then((request) => request(axios, basePath));
         },
         /**
          * Reads a document
@@ -1234,6 +1296,7 @@ export const DocumentApiFactory = function (configuration?: Configuration, baseP
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} docUnid Universal ID of the document.
+         * @param {string} authorization 
          * @param {boolean} [hidden] When &#x60;true&#x60;, emits hidden properties.  Hidden properties have names beginning with &#x60;$&#x60;, for example, &#x60;\&quot;$UpdatedBy\&quot;:\&quot;CN&#x3D;Admin/O&#x3D;Your Org\&quot;&#x60;. 
          * @param {boolean} [multipart] When &#x60;false&#x60;, formats rich text as a single HTML part rather than multipart. The default value is &#x60;true&#x60;. 
          * @param {boolean} [strongtype] When &#x60;true&#x60;, displays date-time items as objects with type and data elements. See the examples. Rich text items always use strongtype format. 
@@ -1245,8 +1308,8 @@ export const DocumentApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDocument(folder: string, database: string, docUnid: string, hidden?: boolean, multipart?: boolean, strongtype?: boolean, lowercasefields?: boolean, fields?: string, markread?: boolean, attachmentlinks?: boolean, ifModifiedSince?: string, options?: any): AxiosPromise<Document> {
-            return localVarFp.getDocument(folder, database, docUnid, hidden, multipart, strongtype, lowercasefields, fields, markread, attachmentlinks, ifModifiedSince, options).then((request) => request(axios, basePath));
+        getDocument(folder: string, database: string, docUnid: string, authorization: string, hidden?: boolean, multipart?: boolean, strongtype?: boolean, lowercasefields?: boolean, fields?: string, markread?: boolean, attachmentlinks?: boolean, ifModifiedSince?: string, options?: any): AxiosPromise<Document> {
+            return localVarFp.getDocument(folder, database, docUnid, authorization, hidden, multipart, strongtype, lowercasefields, fields, markread, attachmentlinks, ifModifiedSince, options).then((request) => request(axios, basePath));
         },
         /**
          * Replaces all items in a document
@@ -1254,6 +1317,7 @@ export const DocumentApiFactory = function (configuration?: Configuration, baseP
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} docUnid Universal ID of the document.
+         * @param {string} authorization 
          * @param {Document} document The document properties to update.
          * @param {string} [form] Associates a database form with the document. 
          * @param {boolean} [computewithform] When &#x60;true&#x60;, runs the associated form formulas against the request data before posting the data. You must identify the form. 
@@ -1261,8 +1325,8 @@ export const DocumentApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateDocument(folder: string, database: string, docUnid: string, document: Document, form?: string, computewithform?: boolean, ifUnmodifiedSince?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.updateDocument(folder, database, docUnid, document, form, computewithform, ifUnmodifiedSince, options).then((request) => request(axios, basePath));
+        updateDocument(folder: string, database: string, docUnid: string, authorization: string, document: Document, form?: string, computewithform?: boolean, ifUnmodifiedSince?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.updateDocument(folder, database, docUnid, authorization, document, form, computewithform, ifUnmodifiedSince, options).then((request) => request(axios, basePath));
         },
         /**
          * Updates selected items in a document
@@ -1270,6 +1334,7 @@ export const DocumentApiFactory = function (configuration?: Configuration, baseP
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} docUnid Universal ID of the document.
+         * @param {string} authorization 
          * @param {Document} document The document properties to update.
          * @param {string} [form] Associates a database form with the document. 
          * @param {boolean} [computewithform] When &#x60;true&#x60;, runs the associated form formulas against the request data before posting the data. You must identify the form. 
@@ -1277,8 +1342,8 @@ export const DocumentApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateDocumentItems(folder: string, database: string, docUnid: string, document: Document, form?: string, computewithform?: boolean, ifUnmodifiedSince?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.updateDocumentItems(folder, database, docUnid, document, form, computewithform, ifUnmodifiedSince, options).then((request) => request(axios, basePath));
+        updateDocumentItems(folder: string, database: string, docUnid: string, authorization: string, document: Document, form?: string, computewithform?: boolean, ifUnmodifiedSince?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.updateDocumentItems(folder, database, docUnid, authorization, document, form, computewithform, ifUnmodifiedSince, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1295,6 +1360,7 @@ export class DocumentApi extends BaseAPI {
      * @summary Creates a new document
      * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
      * @param {string} database Database file name.
+     * @param {string} authorization 
      * @param {Document} document The document to create.
      * @param {string} [form] Associates a database form with the document. 
      * @param {boolean} [computewithform] When &#x60;true&#x60;, runs the associated form formulas against the request data before posting the data. You must identify the form. 
@@ -1303,8 +1369,8 @@ export class DocumentApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DocumentApi
      */
-    public createDocument(folder: string, database: string, document: Document, form?: string, computewithform?: boolean, parentid?: string, options?: any) {
-        return DocumentApiFp(this.configuration).createDocument(folder, database, document, form, computewithform, parentid, options).then((request) => request(this.axios, this.basePath));
+    public createDocument(folder: string, database: string, authorization: string, document: Document, form?: string, computewithform?: boolean, parentid?: string, options?: any) {
+        return DocumentApiFp(this.configuration).createDocument(folder, database, authorization, document, form, computewithform, parentid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1313,13 +1379,14 @@ export class DocumentApi extends BaseAPI {
      * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
      * @param {string} database Database file name.
      * @param {string} docUnid Universal ID of the document.
+     * @param {string} authorization 
      * @param {string} [ifUnmodifiedSince] Date and time in RFC 1123 time format (for example,  &#x60;Tue, 23 Aug 2011 21:35:18 GMT&#x60;) as previously returned in the  &#x60;Last-Modified&#x60; response header of a GET for the same document. the operation succeeds only if the document has not been modified since the specified date. 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DocumentApi
      */
-    public deleteDocument(folder: string, database: string, docUnid: string, ifUnmodifiedSince?: string, options?: any) {
-        return DocumentApiFp(this.configuration).deleteDocument(folder, database, docUnid, ifUnmodifiedSince, options).then((request) => request(this.axios, this.basePath));
+    public deleteDocument(folder: string, database: string, docUnid: string, authorization: string, ifUnmodifiedSince?: string, options?: any) {
+        return DocumentApiFp(this.configuration).deleteDocument(folder, database, docUnid, authorization, ifUnmodifiedSince, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1328,6 +1395,7 @@ export class DocumentApi extends BaseAPI {
      * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
      * @param {string} database Database file name.
      * @param {string} docUnid Universal ID of the document.
+     * @param {string} authorization 
      * @param {boolean} [hidden] When &#x60;true&#x60;, emits hidden properties.  Hidden properties have names beginning with &#x60;$&#x60;, for example, &#x60;\&quot;$UpdatedBy\&quot;:\&quot;CN&#x3D;Admin/O&#x3D;Your Org\&quot;&#x60;. 
      * @param {boolean} [multipart] When &#x60;false&#x60;, formats rich text as a single HTML part rather than multipart. The default value is &#x60;true&#x60;. 
      * @param {boolean} [strongtype] When &#x60;true&#x60;, displays date-time items as objects with type and data elements. See the examples. Rich text items always use strongtype format. 
@@ -1340,8 +1408,8 @@ export class DocumentApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DocumentApi
      */
-    public getDocument(folder: string, database: string, docUnid: string, hidden?: boolean, multipart?: boolean, strongtype?: boolean, lowercasefields?: boolean, fields?: string, markread?: boolean, attachmentlinks?: boolean, ifModifiedSince?: string, options?: any) {
-        return DocumentApiFp(this.configuration).getDocument(folder, database, docUnid, hidden, multipart, strongtype, lowercasefields, fields, markread, attachmentlinks, ifModifiedSince, options).then((request) => request(this.axios, this.basePath));
+    public getDocument(folder: string, database: string, docUnid: string, authorization: string, hidden?: boolean, multipart?: boolean, strongtype?: boolean, lowercasefields?: boolean, fields?: string, markread?: boolean, attachmentlinks?: boolean, ifModifiedSince?: string, options?: any) {
+        return DocumentApiFp(this.configuration).getDocument(folder, database, docUnid, authorization, hidden, multipart, strongtype, lowercasefields, fields, markread, attachmentlinks, ifModifiedSince, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1350,6 +1418,7 @@ export class DocumentApi extends BaseAPI {
      * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
      * @param {string} database Database file name.
      * @param {string} docUnid Universal ID of the document.
+     * @param {string} authorization 
      * @param {Document} document The document properties to update.
      * @param {string} [form] Associates a database form with the document. 
      * @param {boolean} [computewithform] When &#x60;true&#x60;, runs the associated form formulas against the request data before posting the data. You must identify the form. 
@@ -1358,8 +1427,8 @@ export class DocumentApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DocumentApi
      */
-    public updateDocument(folder: string, database: string, docUnid: string, document: Document, form?: string, computewithform?: boolean, ifUnmodifiedSince?: string, options?: any) {
-        return DocumentApiFp(this.configuration).updateDocument(folder, database, docUnid, document, form, computewithform, ifUnmodifiedSince, options).then((request) => request(this.axios, this.basePath));
+    public updateDocument(folder: string, database: string, docUnid: string, authorization: string, document: Document, form?: string, computewithform?: boolean, ifUnmodifiedSince?: string, options?: any) {
+        return DocumentApiFp(this.configuration).updateDocument(folder, database, docUnid, authorization, document, form, computewithform, ifUnmodifiedSince, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1368,6 +1437,7 @@ export class DocumentApi extends BaseAPI {
      * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
      * @param {string} database Database file name.
      * @param {string} docUnid Universal ID of the document.
+     * @param {string} authorization 
      * @param {Document} document The document properties to update.
      * @param {string} [form] Associates a database form with the document. 
      * @param {boolean} [computewithform] When &#x60;true&#x60;, runs the associated form formulas against the request data before posting the data. You must identify the form. 
@@ -1376,8 +1446,8 @@ export class DocumentApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DocumentApi
      */
-    public updateDocumentItems(folder: string, database: string, docUnid: string, document: Document, form?: string, computewithform?: boolean, ifUnmodifiedSince?: string, options?: any) {
-        return DocumentApiFp(this.configuration).updateDocumentItems(folder, database, docUnid, document, form, computewithform, ifUnmodifiedSince, options).then((request) => request(this.axios, this.basePath));
+    public updateDocumentItems(folder: string, database: string, docUnid: string, authorization: string, document: Document, form?: string, computewithform?: boolean, ifUnmodifiedSince?: string, options?: any) {
+        return DocumentApiFp(this.configuration).updateDocumentItems(folder, database, docUnid, authorization, document, form, computewithform, ifUnmodifiedSince, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1393,17 +1463,20 @@ export const DocumentListApiAxiosParamCreator = function (configuration?: Config
          * @summary Gets a list of documents
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
+         * @param {string} authorization 
          * @param {string} [search] Returns only documents that match a full-text query. An error occurs if the database is not full-text indexed. 
          * @param {number} [searchmaxdocs] Limits the number of documents returned by a full-text search. 
          * @param {string} [since] Returns only documents modified since a specified time. Specify the time in ISO 8601 format.  For example, &#x60;2011-08-21T20:21:00Z&#x60;. 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDocuments: async (folder: string, database: string, search?: string, searchmaxdocs?: number, since?: string, options: any = {}): Promise<RequestArgs> => {
+        getDocuments: async (folder: string, database: string, authorization: string, search?: string, searchmaxdocs?: number, since?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'folder' is not null or undefined
             assertParamExists('getDocuments', 'folder', folder)
             // verify required parameter 'database' is not null or undefined
             assertParamExists('getDocuments', 'database', database)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getDocuments', 'authorization', authorization)
             const localVarPath = `/{folder}/{database}/api/data/documents`
                 .replace(`{${"folder"}}`, encodeURIComponent(String(folder)))
                 .replace(`{${"database"}}`, encodeURIComponent(String(database)));
@@ -1434,6 +1507,10 @@ export const DocumentListApiAxiosParamCreator = function (configuration?: Config
                 localVarQueryParameter['since'] = since;
             }
 
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
@@ -1460,14 +1537,15 @@ export const DocumentListApiFp = function(configuration?: Configuration) {
          * @summary Gets a list of documents
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
+         * @param {string} authorization 
          * @param {string} [search] Returns only documents that match a full-text query. An error occurs if the database is not full-text indexed. 
          * @param {number} [searchmaxdocs] Limits the number of documents returned by a full-text search. 
          * @param {string} [since] Returns only documents modified since a specified time. Specify the time in ISO 8601 format.  For example, &#x60;2011-08-21T20:21:00Z&#x60;. 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getDocuments(folder: string, database: string, search?: string, searchmaxdocs?: number, since?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DocumentListResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getDocuments(folder, database, search, searchmaxdocs, since, options);
+        async getDocuments(folder: string, database: string, authorization: string, search?: string, searchmaxdocs?: number, since?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DocumentListResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDocuments(folder, database, authorization, search, searchmaxdocs, since, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1485,14 +1563,15 @@ export const DocumentListApiFactory = function (configuration?: Configuration, b
          * @summary Gets a list of documents
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
+         * @param {string} authorization 
          * @param {string} [search] Returns only documents that match a full-text query. An error occurs if the database is not full-text indexed. 
          * @param {number} [searchmaxdocs] Limits the number of documents returned by a full-text search. 
          * @param {string} [since] Returns only documents modified since a specified time. Specify the time in ISO 8601 format.  For example, &#x60;2011-08-21T20:21:00Z&#x60;. 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDocuments(folder: string, database: string, search?: string, searchmaxdocs?: number, since?: string, options?: any): AxiosPromise<DocumentListResponse> {
-            return localVarFp.getDocuments(folder, database, search, searchmaxdocs, since, options).then((request) => request(axios, basePath));
+        getDocuments(folder: string, database: string, authorization: string, search?: string, searchmaxdocs?: number, since?: string, options?: any): AxiosPromise<DocumentListResponse> {
+            return localVarFp.getDocuments(folder, database, authorization, search, searchmaxdocs, since, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1509,6 +1588,7 @@ export class DocumentListApi extends BaseAPI {
      * @summary Gets a list of documents
      * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
      * @param {string} database Database file name.
+     * @param {string} authorization 
      * @param {string} [search] Returns only documents that match a full-text query. An error occurs if the database is not full-text indexed. 
      * @param {number} [searchmaxdocs] Limits the number of documents returned by a full-text search. 
      * @param {string} [since] Returns only documents modified since a specified time. Specify the time in ISO 8601 format.  For example, &#x60;2011-08-21T20:21:00Z&#x60;. 
@@ -1516,8 +1596,8 @@ export class DocumentListApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DocumentListApi
      */
-    public getDocuments(folder: string, database: string, search?: string, searchmaxdocs?: number, since?: string, options?: any) {
-        return DocumentListApiFp(this.configuration).getDocuments(folder, database, search, searchmaxdocs, since, options).then((request) => request(this.axios, this.basePath));
+    public getDocuments(folder: string, database: string, authorization: string, search?: string, searchmaxdocs?: number, since?: string, options?: any) {
+        return DocumentListApiFp(this.configuration).getDocuments(folder, database, authorization, search, searchmaxdocs, since, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1534,17 +1614,20 @@ export const FolderApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewName Name of a folder in the database.
+         * @param {string} authorization 
          * @param {FolderOperations} operations Documents to be added and/or removed.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFolderContentByName: async (folder: string, database: string, viewName: string, operations: FolderOperations, options: any = {}): Promise<RequestArgs> => {
+        updateFolderContentByName: async (folder: string, database: string, viewName: string, authorization: string, operations: FolderOperations, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'folder' is not null or undefined
             assertParamExists('updateFolderContentByName', 'folder', folder)
             // verify required parameter 'database' is not null or undefined
             assertParamExists('updateFolderContentByName', 'database', database)
             // verify required parameter 'viewName' is not null or undefined
             assertParamExists('updateFolderContentByName', 'viewName', viewName)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('updateFolderContentByName', 'authorization', authorization)
             // verify required parameter 'operations' is not null or undefined
             assertParamExists('updateFolderContentByName', 'operations', operations)
             const localVarPath = `/{folder}/{database}/api/data/collections/name/{viewName}`
@@ -1566,6 +1649,10 @@ export const FolderApiAxiosParamCreator = function (configuration?: Configuratio
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -1586,17 +1673,20 @@ export const FolderApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewUnid Universal ID of a folder in the database.
+         * @param {string} authorization 
          * @param {FolderOperations} operations Documents to be added and/or removed.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFolderContentByUnid: async (folder: string, database: string, viewUnid: string, operations: FolderOperations, options: any = {}): Promise<RequestArgs> => {
+        updateFolderContentByUnid: async (folder: string, database: string, viewUnid: string, authorization: string, operations: FolderOperations, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'folder' is not null or undefined
             assertParamExists('updateFolderContentByUnid', 'folder', folder)
             // verify required parameter 'database' is not null or undefined
             assertParamExists('updateFolderContentByUnid', 'database', database)
             // verify required parameter 'viewUnid' is not null or undefined
             assertParamExists('updateFolderContentByUnid', 'viewUnid', viewUnid)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('updateFolderContentByUnid', 'authorization', authorization)
             // verify required parameter 'operations' is not null or undefined
             assertParamExists('updateFolderContentByUnid', 'operations', operations)
             const localVarPath = `/{folder}/{database}/api/data/collections/unid/{viewUnid}`
@@ -1617,6 +1707,10 @@ export const FolderApiAxiosParamCreator = function (configuration?: Configuratio
             // authentication basic_auth required
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
 
 
     
@@ -1648,12 +1742,13 @@ export const FolderApiFp = function(configuration?: Configuration) {
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewName Name of a folder in the database.
+         * @param {string} authorization 
          * @param {FolderOperations} operations Documents to be added and/or removed.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateFolderContentByName(folder: string, database: string, viewName: string, operations: FolderOperations, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateFolderContentByName(folder, database, viewName, operations, options);
+        async updateFolderContentByName(folder: string, database: string, viewName: string, authorization: string, operations: FolderOperations, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateFolderContentByName(folder, database, viewName, authorization, operations, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1662,12 +1757,13 @@ export const FolderApiFp = function(configuration?: Configuration) {
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewUnid Universal ID of a folder in the database.
+         * @param {string} authorization 
          * @param {FolderOperations} operations Documents to be added and/or removed.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateFolderContentByUnid(folder: string, database: string, viewUnid: string, operations: FolderOperations, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateFolderContentByUnid(folder, database, viewUnid, operations, options);
+        async updateFolderContentByUnid(folder: string, database: string, viewUnid: string, authorization: string, operations: FolderOperations, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateFolderContentByUnid(folder, database, viewUnid, authorization, operations, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1686,12 +1782,13 @@ export const FolderApiFactory = function (configuration?: Configuration, basePat
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewName Name of a folder in the database.
+         * @param {string} authorization 
          * @param {FolderOperations} operations Documents to be added and/or removed.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFolderContentByName(folder: string, database: string, viewName: string, operations: FolderOperations, options?: any): AxiosPromise<void> {
-            return localVarFp.updateFolderContentByName(folder, database, viewName, operations, options).then((request) => request(axios, basePath));
+        updateFolderContentByName(folder: string, database: string, viewName: string, authorization: string, operations: FolderOperations, options?: any): AxiosPromise<void> {
+            return localVarFp.updateFolderContentByName(folder, database, viewName, authorization, operations, options).then((request) => request(axios, basePath));
         },
         /**
          * Updates the contents of a folder by folder UNID
@@ -1699,12 +1796,13 @@ export const FolderApiFactory = function (configuration?: Configuration, basePat
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewUnid Universal ID of a folder in the database.
+         * @param {string} authorization 
          * @param {FolderOperations} operations Documents to be added and/or removed.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFolderContentByUnid(folder: string, database: string, viewUnid: string, operations: FolderOperations, options?: any): AxiosPromise<void> {
-            return localVarFp.updateFolderContentByUnid(folder, database, viewUnid, operations, options).then((request) => request(axios, basePath));
+        updateFolderContentByUnid(folder: string, database: string, viewUnid: string, authorization: string, operations: FolderOperations, options?: any): AxiosPromise<void> {
+            return localVarFp.updateFolderContentByUnid(folder, database, viewUnid, authorization, operations, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1722,13 +1820,14 @@ export class FolderApi extends BaseAPI {
      * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
      * @param {string} database Database file name.
      * @param {string} viewName Name of a folder in the database.
+     * @param {string} authorization 
      * @param {FolderOperations} operations Documents to be added and/or removed.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FolderApi
      */
-    public updateFolderContentByName(folder: string, database: string, viewName: string, operations: FolderOperations, options?: any) {
-        return FolderApiFp(this.configuration).updateFolderContentByName(folder, database, viewName, operations, options).then((request) => request(this.axios, this.basePath));
+    public updateFolderContentByName(folder: string, database: string, viewName: string, authorization: string, operations: FolderOperations, options?: any) {
+        return FolderApiFp(this.configuration).updateFolderContentByName(folder, database, viewName, authorization, operations, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1737,13 +1836,14 @@ export class FolderApi extends BaseAPI {
      * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
      * @param {string} database Database file name.
      * @param {string} viewUnid Universal ID of a folder in the database.
+     * @param {string} authorization 
      * @param {FolderOperations} operations Documents to be added and/or removed.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FolderApi
      */
-    public updateFolderContentByUnid(folder: string, database: string, viewUnid: string, operations: FolderOperations, options?: any) {
-        return FolderApiFp(this.configuration).updateFolderContentByUnid(folder, database, viewUnid, operations, options).then((request) => request(this.axios, this.basePath));
+    public updateFolderContentByUnid(folder: string, database: string, viewUnid: string, authorization: string, operations: FolderOperations, options?: any) {
+        return FolderApiFp(this.configuration).updateFolderContentByUnid(folder, database, viewUnid, authorization, operations, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1760,16 +1860,19 @@ export const ViewDesignApiAxiosParamCreator = function (configuration?: Configur
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewName Name of a view or folder in the database.
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getViewDesignByName: async (folder: string, database: string, viewName: string, options: any = {}): Promise<RequestArgs> => {
+        getViewDesignByName: async (folder: string, database: string, viewName: string, authorization: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'folder' is not null or undefined
             assertParamExists('getViewDesignByName', 'folder', folder)
             // verify required parameter 'database' is not null or undefined
             assertParamExists('getViewDesignByName', 'database', database)
             // verify required parameter 'viewName' is not null or undefined
             assertParamExists('getViewDesignByName', 'viewName', viewName)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getViewDesignByName', 'authorization', authorization)
             const localVarPath = `/{folder}/{database}/api/data/collections/name/{viewName}/design`
                 .replace(`{${"folder"}}`, encodeURIComponent(String(folder)))
                 .replace(`{${"database"}}`, encodeURIComponent(String(database)))
@@ -1789,6 +1892,10 @@ export const ViewDesignApiAxiosParamCreator = function (configuration?: Configur
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
@@ -1806,16 +1913,19 @@ export const ViewDesignApiAxiosParamCreator = function (configuration?: Configur
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewUnid Universal ID of a view or folder in the database.
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getViewDesignByUnid: async (folder: string, database: string, viewUnid: string, options: any = {}): Promise<RequestArgs> => {
+        getViewDesignByUnid: async (folder: string, database: string, viewUnid: string, authorization: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'folder' is not null or undefined
             assertParamExists('getViewDesignByUnid', 'folder', folder)
             // verify required parameter 'database' is not null or undefined
             assertParamExists('getViewDesignByUnid', 'database', database)
             // verify required parameter 'viewUnid' is not null or undefined
             assertParamExists('getViewDesignByUnid', 'viewUnid', viewUnid)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getViewDesignByUnid', 'authorization', authorization)
             const localVarPath = `/{folder}/{database}/api/data/collections/unid/{viewUnid}/design`
                 .replace(`{${"folder"}}`, encodeURIComponent(String(folder)))
                 .replace(`{${"database"}}`, encodeURIComponent(String(database)))
@@ -1834,6 +1944,10 @@ export const ViewDesignApiAxiosParamCreator = function (configuration?: Configur
             // authentication basic_auth required
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
 
 
     
@@ -1862,11 +1976,12 @@ export const ViewDesignApiFp = function(configuration?: Configuration) {
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewName Name of a view or folder in the database.
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getViewDesignByName(folder: string, database: string, viewName: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ViewDesignResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getViewDesignByName(folder, database, viewName, options);
+        async getViewDesignByName(folder: string, database: string, viewName: string, authorization: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ViewDesignResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getViewDesignByName(folder, database, viewName, authorization, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1875,11 +1990,12 @@ export const ViewDesignApiFp = function(configuration?: Configuration) {
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewUnid Universal ID of a view or folder in the database.
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getViewDesignByUnid(folder: string, database: string, viewUnid: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ViewDesignResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getViewDesignByUnid(folder, database, viewUnid, options);
+        async getViewDesignByUnid(folder: string, database: string, viewUnid: string, authorization: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ViewDesignResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getViewDesignByUnid(folder, database, viewUnid, authorization, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1898,11 +2014,12 @@ export const ViewDesignApiFactory = function (configuration?: Configuration, bas
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewName Name of a view or folder in the database.
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getViewDesignByName(folder: string, database: string, viewName: string, options?: any): AxiosPromise<ViewDesignResponse> {
-            return localVarFp.getViewDesignByName(folder, database, viewName, options).then((request) => request(axios, basePath));
+        getViewDesignByName(folder: string, database: string, viewName: string, authorization: string, options?: any): AxiosPromise<ViewDesignResponse> {
+            return localVarFp.getViewDesignByName(folder, database, viewName, authorization, options).then((request) => request(axios, basePath));
         },
         /**
          * Gets information on the columns in a view or folder
@@ -1910,11 +2027,12 @@ export const ViewDesignApiFactory = function (configuration?: Configuration, bas
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewUnid Universal ID of a view or folder in the database.
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getViewDesignByUnid(folder: string, database: string, viewUnid: string, options?: any): AxiosPromise<ViewDesignResponse> {
-            return localVarFp.getViewDesignByUnid(folder, database, viewUnid, options).then((request) => request(axios, basePath));
+        getViewDesignByUnid(folder: string, database: string, viewUnid: string, authorization: string, options?: any): AxiosPromise<ViewDesignResponse> {
+            return localVarFp.getViewDesignByUnid(folder, database, viewUnid, authorization, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1932,12 +2050,13 @@ export class ViewDesignApi extends BaseAPI {
      * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
      * @param {string} database Database file name.
      * @param {string} viewName Name of a view or folder in the database.
+     * @param {string} authorization 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ViewDesignApi
      */
-    public getViewDesignByName(folder: string, database: string, viewName: string, options?: any) {
-        return ViewDesignApiFp(this.configuration).getViewDesignByName(folder, database, viewName, options).then((request) => request(this.axios, this.basePath));
+    public getViewDesignByName(folder: string, database: string, viewName: string, authorization: string, options?: any) {
+        return ViewDesignApiFp(this.configuration).getViewDesignByName(folder, database, viewName, authorization, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1946,12 +2065,13 @@ export class ViewDesignApi extends BaseAPI {
      * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
      * @param {string} database Database file name.
      * @param {string} viewUnid Universal ID of a view or folder in the database.
+     * @param {string} authorization 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ViewDesignApi
      */
-    public getViewDesignByUnid(folder: string, database: string, viewUnid: string, options?: any) {
-        return ViewDesignApiFp(this.configuration).getViewDesignByUnid(folder, database, viewUnid, options).then((request) => request(this.axios, this.basePath));
+    public getViewDesignByUnid(folder: string, database: string, viewUnid: string, authorization: string, options?: any) {
+        return ViewDesignApiFp(this.configuration).getViewDesignByUnid(folder, database, viewUnid, authorization, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1968,6 +2088,7 @@ export const ViewEntryListApiAxiosParamCreator = function (configuration?: Confi
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewName Name of a view or folder in the database.
+         * @param {string} authorization 
          * @param {number} [start] Specifies the starting entry. Defaults to 0 (the first entry). 
          * @param {number} [count] Specifies the number of entries to return. Defaults to 10. Note: Use &#x60;start&#x60; and &#x60;count&#x60; together, or use &#x60;ps&#x60; and  &#x60;page&#x60; together. 
          * @param {number} [page] Page number. The API returns entries based on a multiple of this parameter and the page size parameter (&#x60;ps&#x60;). 
@@ -1987,13 +2108,15 @@ export const ViewEntryListApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getViewEntriesByName: async (folder: string, database: string, viewName: string, start?: number, count?: number, page?: number, ps?: number, entrycount?: boolean, search?: string, searchmaxdocs?: number, sortcolumn?: string, sortorder?: 'ascending' | 'descending', startkeys?: string, keys?: string, keysexactmatch?: boolean, expandlevel?: number, category?: string, parentid?: string, systemcolumns?: number, options: any = {}): Promise<RequestArgs> => {
+        getViewEntriesByName: async (folder: string, database: string, viewName: string, authorization: string, start?: number, count?: number, page?: number, ps?: number, entrycount?: boolean, search?: string, searchmaxdocs?: number, sortcolumn?: string, sortorder?: 'ascending' | 'descending', startkeys?: string, keys?: string, keysexactmatch?: boolean, expandlevel?: number, category?: string, parentid?: string, systemcolumns?: number, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'folder' is not null or undefined
             assertParamExists('getViewEntriesByName', 'folder', folder)
             // verify required parameter 'database' is not null or undefined
             assertParamExists('getViewEntriesByName', 'database', database)
             // verify required parameter 'viewName' is not null or undefined
             assertParamExists('getViewEntriesByName', 'viewName', viewName)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getViewEntriesByName', 'authorization', authorization)
             const localVarPath = `/{folder}/{database}/api/data/collections/name/{viewName}`
                 .replace(`{${"folder"}}`, encodeURIComponent(String(folder)))
                 .replace(`{${"database"}}`, encodeURIComponent(String(database)))
@@ -2077,6 +2200,10 @@ export const ViewEntryListApiAxiosParamCreator = function (configuration?: Confi
                 localVarQueryParameter['systemcolumns'] = systemcolumns;
             }
 
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
@@ -2094,6 +2221,7 @@ export const ViewEntryListApiAxiosParamCreator = function (configuration?: Confi
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewUnid Universal ID of a view or folder in the database.
+         * @param {string} authorization 
          * @param {number} [start] Specifies the starting entry. Defaults to 0 (the first entry). 
          * @param {number} [count] Specifies the number of entries to return. Defaults to 10. Note: Use &#x60;start&#x60; and &#x60;count&#x60; together, or use &#x60;ps&#x60; and  &#x60;page&#x60; together. 
          * @param {number} [page] Page number. The API returns entries based on a multiple of this parameter and the page size parameter (&#x60;ps&#x60;). 
@@ -2113,13 +2241,15 @@ export const ViewEntryListApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getViewEntriesByUnid: async (folder: string, database: string, viewUnid: string, start?: number, count?: number, page?: number, ps?: number, entrycount?: boolean, search?: string, searchmaxdocs?: number, sortcolumn?: string, sortorder?: 'ascending' | 'descending', startkeys?: string, keys?: string, keysexactmatch?: boolean, expandlevel?: number, category?: string, parentid?: string, systemcolumns?: number, options: any = {}): Promise<RequestArgs> => {
+        getViewEntriesByUnid: async (folder: string, database: string, viewUnid: string, authorization: string, start?: number, count?: number, page?: number, ps?: number, entrycount?: boolean, search?: string, searchmaxdocs?: number, sortcolumn?: string, sortorder?: 'ascending' | 'descending', startkeys?: string, keys?: string, keysexactmatch?: boolean, expandlevel?: number, category?: string, parentid?: string, systemcolumns?: number, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'folder' is not null or undefined
             assertParamExists('getViewEntriesByUnid', 'folder', folder)
             // verify required parameter 'database' is not null or undefined
             assertParamExists('getViewEntriesByUnid', 'database', database)
             // verify required parameter 'viewUnid' is not null or undefined
             assertParamExists('getViewEntriesByUnid', 'viewUnid', viewUnid)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getViewEntriesByUnid', 'authorization', authorization)
             const localVarPath = `/{folder}/{database}/api/data/collections/unid/{viewUnid}`
                 .replace(`{${"folder"}}`, encodeURIComponent(String(folder)))
                 .replace(`{${"database"}}`, encodeURIComponent(String(database)))
@@ -2203,6 +2333,10 @@ export const ViewEntryListApiAxiosParamCreator = function (configuration?: Confi
                 localVarQueryParameter['systemcolumns'] = systemcolumns;
             }
 
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
@@ -2230,6 +2364,7 @@ export const ViewEntryListApiFp = function(configuration?: Configuration) {
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewName Name of a view or folder in the database.
+         * @param {string} authorization 
          * @param {number} [start] Specifies the starting entry. Defaults to 0 (the first entry). 
          * @param {number} [count] Specifies the number of entries to return. Defaults to 10. Note: Use &#x60;start&#x60; and &#x60;count&#x60; together, or use &#x60;ps&#x60; and  &#x60;page&#x60; together. 
          * @param {number} [page] Page number. The API returns entries based on a multiple of this parameter and the page size parameter (&#x60;ps&#x60;). 
@@ -2249,8 +2384,8 @@ export const ViewEntryListApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getViewEntriesByName(folder: string, database: string, viewName: string, start?: number, count?: number, page?: number, ps?: number, entrycount?: boolean, search?: string, searchmaxdocs?: number, sortcolumn?: string, sortorder?: 'ascending' | 'descending', startkeys?: string, keys?: string, keysexactmatch?: boolean, expandlevel?: number, category?: string, parentid?: string, systemcolumns?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ViewEntryListResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getViewEntriesByName(folder, database, viewName, start, count, page, ps, entrycount, search, searchmaxdocs, sortcolumn, sortorder, startkeys, keys, keysexactmatch, expandlevel, category, parentid, systemcolumns, options);
+        async getViewEntriesByName(folder: string, database: string, viewName: string, authorization: string, start?: number, count?: number, page?: number, ps?: number, entrycount?: boolean, search?: string, searchmaxdocs?: number, sortcolumn?: string, sortorder?: 'ascending' | 'descending', startkeys?: string, keys?: string, keysexactmatch?: boolean, expandlevel?: number, category?: string, parentid?: string, systemcolumns?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ViewEntryListResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getViewEntriesByName(folder, database, viewName, authorization, start, count, page, ps, entrycount, search, searchmaxdocs, sortcolumn, sortorder, startkeys, keys, keysexactmatch, expandlevel, category, parentid, systemcolumns, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2259,6 +2394,7 @@ export const ViewEntryListApiFp = function(configuration?: Configuration) {
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewUnid Universal ID of a view or folder in the database.
+         * @param {string} authorization 
          * @param {number} [start] Specifies the starting entry. Defaults to 0 (the first entry). 
          * @param {number} [count] Specifies the number of entries to return. Defaults to 10. Note: Use &#x60;start&#x60; and &#x60;count&#x60; together, or use &#x60;ps&#x60; and  &#x60;page&#x60; together. 
          * @param {number} [page] Page number. The API returns entries based on a multiple of this parameter and the page size parameter (&#x60;ps&#x60;). 
@@ -2278,8 +2414,8 @@ export const ViewEntryListApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getViewEntriesByUnid(folder: string, database: string, viewUnid: string, start?: number, count?: number, page?: number, ps?: number, entrycount?: boolean, search?: string, searchmaxdocs?: number, sortcolumn?: string, sortorder?: 'ascending' | 'descending', startkeys?: string, keys?: string, keysexactmatch?: boolean, expandlevel?: number, category?: string, parentid?: string, systemcolumns?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ViewEntryListResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getViewEntriesByUnid(folder, database, viewUnid, start, count, page, ps, entrycount, search, searchmaxdocs, sortcolumn, sortorder, startkeys, keys, keysexactmatch, expandlevel, category, parentid, systemcolumns, options);
+        async getViewEntriesByUnid(folder: string, database: string, viewUnid: string, authorization: string, start?: number, count?: number, page?: number, ps?: number, entrycount?: boolean, search?: string, searchmaxdocs?: number, sortcolumn?: string, sortorder?: 'ascending' | 'descending', startkeys?: string, keys?: string, keysexactmatch?: boolean, expandlevel?: number, category?: string, parentid?: string, systemcolumns?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ViewEntryListResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getViewEntriesByUnid(folder, database, viewUnid, authorization, start, count, page, ps, entrycount, search, searchmaxdocs, sortcolumn, sortorder, startkeys, keys, keysexactmatch, expandlevel, category, parentid, systemcolumns, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -2298,6 +2434,7 @@ export const ViewEntryListApiFactory = function (configuration?: Configuration, 
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewName Name of a view or folder in the database.
+         * @param {string} authorization 
          * @param {number} [start] Specifies the starting entry. Defaults to 0 (the first entry). 
          * @param {number} [count] Specifies the number of entries to return. Defaults to 10. Note: Use &#x60;start&#x60; and &#x60;count&#x60; together, or use &#x60;ps&#x60; and  &#x60;page&#x60; together. 
          * @param {number} [page] Page number. The API returns entries based on a multiple of this parameter and the page size parameter (&#x60;ps&#x60;). 
@@ -2317,8 +2454,8 @@ export const ViewEntryListApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getViewEntriesByName(folder: string, database: string, viewName: string, start?: number, count?: number, page?: number, ps?: number, entrycount?: boolean, search?: string, searchmaxdocs?: number, sortcolumn?: string, sortorder?: 'ascending' | 'descending', startkeys?: string, keys?: string, keysexactmatch?: boolean, expandlevel?: number, category?: string, parentid?: string, systemcolumns?: number, options?: any): AxiosPromise<ViewEntryListResponse> {
-            return localVarFp.getViewEntriesByName(folder, database, viewName, start, count, page, ps, entrycount, search, searchmaxdocs, sortcolumn, sortorder, startkeys, keys, keysexactmatch, expandlevel, category, parentid, systemcolumns, options).then((request) => request(axios, basePath));
+        getViewEntriesByName(folder: string, database: string, viewName: string, authorization: string, start?: number, count?: number, page?: number, ps?: number, entrycount?: boolean, search?: string, searchmaxdocs?: number, sortcolumn?: string, sortorder?: 'ascending' | 'descending', startkeys?: string, keys?: string, keysexactmatch?: boolean, expandlevel?: number, category?: string, parentid?: string, systemcolumns?: number, options?: any): AxiosPromise<ViewEntryListResponse> {
+            return localVarFp.getViewEntriesByName(folder, database, viewName, authorization, start, count, page, ps, entrycount, search, searchmaxdocs, sortcolumn, sortorder, startkeys, keys, keysexactmatch, expandlevel, category, parentid, systemcolumns, options).then((request) => request(axios, basePath));
         },
         /**
          * Gets a list of view entries by view UNID
@@ -2326,6 +2463,7 @@ export const ViewEntryListApiFactory = function (configuration?: Configuration, 
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
          * @param {string} viewUnid Universal ID of a view or folder in the database.
+         * @param {string} authorization 
          * @param {number} [start] Specifies the starting entry. Defaults to 0 (the first entry). 
          * @param {number} [count] Specifies the number of entries to return. Defaults to 10. Note: Use &#x60;start&#x60; and &#x60;count&#x60; together, or use &#x60;ps&#x60; and  &#x60;page&#x60; together. 
          * @param {number} [page] Page number. The API returns entries based on a multiple of this parameter and the page size parameter (&#x60;ps&#x60;). 
@@ -2345,8 +2483,8 @@ export const ViewEntryListApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getViewEntriesByUnid(folder: string, database: string, viewUnid: string, start?: number, count?: number, page?: number, ps?: number, entrycount?: boolean, search?: string, searchmaxdocs?: number, sortcolumn?: string, sortorder?: 'ascending' | 'descending', startkeys?: string, keys?: string, keysexactmatch?: boolean, expandlevel?: number, category?: string, parentid?: string, systemcolumns?: number, options?: any): AxiosPromise<ViewEntryListResponse> {
-            return localVarFp.getViewEntriesByUnid(folder, database, viewUnid, start, count, page, ps, entrycount, search, searchmaxdocs, sortcolumn, sortorder, startkeys, keys, keysexactmatch, expandlevel, category, parentid, systemcolumns, options).then((request) => request(axios, basePath));
+        getViewEntriesByUnid(folder: string, database: string, viewUnid: string, authorization: string, start?: number, count?: number, page?: number, ps?: number, entrycount?: boolean, search?: string, searchmaxdocs?: number, sortcolumn?: string, sortorder?: 'ascending' | 'descending', startkeys?: string, keys?: string, keysexactmatch?: boolean, expandlevel?: number, category?: string, parentid?: string, systemcolumns?: number, options?: any): AxiosPromise<ViewEntryListResponse> {
+            return localVarFp.getViewEntriesByUnid(folder, database, viewUnid, authorization, start, count, page, ps, entrycount, search, searchmaxdocs, sortcolumn, sortorder, startkeys, keys, keysexactmatch, expandlevel, category, parentid, systemcolumns, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2364,6 +2502,7 @@ export class ViewEntryListApi extends BaseAPI {
      * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
      * @param {string} database Database file name.
      * @param {string} viewName Name of a view or folder in the database.
+     * @param {string} authorization 
      * @param {number} [start] Specifies the starting entry. Defaults to 0 (the first entry). 
      * @param {number} [count] Specifies the number of entries to return. Defaults to 10. Note: Use &#x60;start&#x60; and &#x60;count&#x60; together, or use &#x60;ps&#x60; and  &#x60;page&#x60; together. 
      * @param {number} [page] Page number. The API returns entries based on a multiple of this parameter and the page size parameter (&#x60;ps&#x60;). 
@@ -2384,8 +2523,8 @@ export class ViewEntryListApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ViewEntryListApi
      */
-    public getViewEntriesByName(folder: string, database: string, viewName: string, start?: number, count?: number, page?: number, ps?: number, entrycount?: boolean, search?: string, searchmaxdocs?: number, sortcolumn?: string, sortorder?: 'ascending' | 'descending', startkeys?: string, keys?: string, keysexactmatch?: boolean, expandlevel?: number, category?: string, parentid?: string, systemcolumns?: number, options?: any) {
-        return ViewEntryListApiFp(this.configuration).getViewEntriesByName(folder, database, viewName, start, count, page, ps, entrycount, search, searchmaxdocs, sortcolumn, sortorder, startkeys, keys, keysexactmatch, expandlevel, category, parentid, systemcolumns, options).then((request) => request(this.axios, this.basePath));
+    public getViewEntriesByName(folder: string, database: string, viewName: string, authorization: string, start?: number, count?: number, page?: number, ps?: number, entrycount?: boolean, search?: string, searchmaxdocs?: number, sortcolumn?: string, sortorder?: 'ascending' | 'descending', startkeys?: string, keys?: string, keysexactmatch?: boolean, expandlevel?: number, category?: string, parentid?: string, systemcolumns?: number, options?: any) {
+        return ViewEntryListApiFp(this.configuration).getViewEntriesByName(folder, database, viewName, authorization, start, count, page, ps, entrycount, search, searchmaxdocs, sortcolumn, sortorder, startkeys, keys, keysexactmatch, expandlevel, category, parentid, systemcolumns, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2394,6 +2533,7 @@ export class ViewEntryListApi extends BaseAPI {
      * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
      * @param {string} database Database file name.
      * @param {string} viewUnid Universal ID of a view or folder in the database.
+     * @param {string} authorization 
      * @param {number} [start] Specifies the starting entry. Defaults to 0 (the first entry). 
      * @param {number} [count] Specifies the number of entries to return. Defaults to 10. Note: Use &#x60;start&#x60; and &#x60;count&#x60; together, or use &#x60;ps&#x60; and  &#x60;page&#x60; together. 
      * @param {number} [page] Page number. The API returns entries based on a multiple of this parameter and the page size parameter (&#x60;ps&#x60;). 
@@ -2414,8 +2554,8 @@ export class ViewEntryListApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ViewEntryListApi
      */
-    public getViewEntriesByUnid(folder: string, database: string, viewUnid: string, start?: number, count?: number, page?: number, ps?: number, entrycount?: boolean, search?: string, searchmaxdocs?: number, sortcolumn?: string, sortorder?: 'ascending' | 'descending', startkeys?: string, keys?: string, keysexactmatch?: boolean, expandlevel?: number, category?: string, parentid?: string, systemcolumns?: number, options?: any) {
-        return ViewEntryListApiFp(this.configuration).getViewEntriesByUnid(folder, database, viewUnid, start, count, page, ps, entrycount, search, searchmaxdocs, sortcolumn, sortorder, startkeys, keys, keysexactmatch, expandlevel, category, parentid, systemcolumns, options).then((request) => request(this.axios, this.basePath));
+    public getViewEntriesByUnid(folder: string, database: string, viewUnid: string, authorization: string, start?: number, count?: number, page?: number, ps?: number, entrycount?: boolean, search?: string, searchmaxdocs?: number, sortcolumn?: string, sortorder?: 'ascending' | 'descending', startkeys?: string, keys?: string, keysexactmatch?: boolean, expandlevel?: number, category?: string, parentid?: string, systemcolumns?: number, options?: any) {
+        return ViewEntryListApiFp(this.configuration).getViewEntriesByUnid(folder, database, viewUnid, authorization, start, count, page, ps, entrycount, search, searchmaxdocs, sortcolumn, sortorder, startkeys, keys, keysexactmatch, expandlevel, category, parentid, systemcolumns, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2431,14 +2571,17 @@ export const ViewListApiAxiosParamCreator = function (configuration?: Configurat
          * @summary Gets a list of views and folders in a database
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getViewList: async (folder: string, database: string, options: any = {}): Promise<RequestArgs> => {
+        getViewList: async (folder: string, database: string, authorization: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'folder' is not null or undefined
             assertParamExists('getViewList', 'folder', folder)
             // verify required parameter 'database' is not null or undefined
             assertParamExists('getViewList', 'database', database)
+            // verify required parameter 'authorization' is not null or undefined
+            assertParamExists('getViewList', 'authorization', authorization)
             const localVarPath = `/{folder}/{database}/api/data/collections`
                 .replace(`{${"folder"}}`, encodeURIComponent(String(folder)))
                 .replace(`{${"database"}}`, encodeURIComponent(String(database)));
@@ -2456,6 +2599,10 @@ export const ViewListApiAxiosParamCreator = function (configuration?: Configurat
             // authentication basic_auth required
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
 
 
     
@@ -2483,11 +2630,12 @@ export const ViewListApiFp = function(configuration?: Configuration) {
          * @summary Gets a list of views and folders in a database
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getViewList(folder: string, database: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ViewListResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getViewList(folder, database, options);
+        async getViewList(folder: string, database: string, authorization: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ViewListResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getViewList(folder, database, authorization, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -2505,11 +2653,12 @@ export const ViewListApiFactory = function (configuration?: Configuration, baseP
          * @summary Gets a list of views and folders in a database
          * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
          * @param {string} database Database file name.
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getViewList(folder: string, database: string, options?: any): AxiosPromise<ViewListResponse> {
-            return localVarFp.getViewList(folder, database, options).then((request) => request(axios, basePath));
+        getViewList(folder: string, database: string, authorization: string, options?: any): AxiosPromise<ViewListResponse> {
+            return localVarFp.getViewList(folder, database, authorization, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2526,12 +2675,13 @@ export class ViewListApi extends BaseAPI {
      * @summary Gets a list of views and folders in a database
      * @param {string} folder Database folder name relative to the Domino data directory.  If the database is not in a folder, use &#x60;.&#x60; to specify the data directory itself. 
      * @param {string} database Database file name.
+     * @param {string} authorization 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ViewListApi
      */
-    public getViewList(folder: string, database: string, options?: any) {
-        return ViewListApiFp(this.configuration).getViewList(folder, database, options).then((request) => request(this.axios, this.basePath));
+    public getViewList(folder: string, database: string, authorization: string, options?: any) {
+        return ViewListApiFp(this.configuration).getViewList(folder, database, authorization, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

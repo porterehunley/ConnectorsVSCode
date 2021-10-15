@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * NSF Data
+ * NSF Data s
  * NSF Data Connector provides access to any HCL Domino NSF database as well as IBM Domino NSF database (from version 9.0.1) for which Domino Access Services (DAS) are enabled. The Connector represents NSF databases, views, view entries, and documents in JSON format.
  *
  * The version of the OpenAPI document: 1.0
