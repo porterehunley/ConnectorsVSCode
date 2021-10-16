@@ -6,17 +6,27 @@ import * as fs from 'fs';
 import * as cp from 'child_process';
 import * as vscode from 'vscode';
 import * as util from 'util';
-/**
- * A multi-step input using window.createQuickPick() and window.createInputBox().
- * 
- * This first part uses the helper class `MultiStepInput` that wraps the API for the multi-step case.
- */
+import { resolve } from 'path';
 
-export async function multiStepInput(context: ExtensionContext) {
 
+export async function loginIfNeeded() {
+    let loginOptions: Options = {
+        mode: "text",
+        pythonPath: __dirname + '/../src/tools/paconn-cli/venv/bin/python3',
+        pythonOptions: ['-u'],
+        scriptPath: __dirname + '/../src/tools/paconn-cli/venv/lib/python3.8/site-packages',
+        args: ['login']
+    };
+
+    let loginPyshell = new PythonShell('paconn', loginOptions);
+    loginPyshell.on('message', function (message) {
+    	vscode.window.showInformationMessage(message);
+    });
+}
+
+export async function openSourceConnectorImport(context: ExtensionContext) {
 	const connectorTypes: QuickPickItem[] = ['certified-connectors', 'custom-connectors', 'independent-publisher-connectors']
 		.map(label => ({ label }));
-
 
 	interface State {
 		title: string;
@@ -132,10 +142,7 @@ export async function multiStepInput(context: ExtensionContext) {
         let apiPropsUrl = `https://raw.githubusercontent.com/microsoft/powerplatformconnectors/master/${connectorType}/${connectorName}/apiProperties.json`;
         let response = await axios.default.get(apiPropsUrl);
 
-        // write the file
         let result = fs.writeFileSync(__dirname + '/../src/swagger/'+connectorName.replace(' ','_')+'.apiProperties.json', JSON.stringify(response.data));
-        console.log('Api Props write result: ' + result);
-
         return response.data;
     }
 
@@ -144,7 +151,6 @@ export async function multiStepInput(context: ExtensionContext) {
         let response = await axios.default.get(swaggerUrl);
 
         let result = fs.writeFileSync(__dirname +'/../src/swagger/'+connectorName.replace(' ','_')+'.apiDefinition.swagger.json', JSON.stringify(response.data));
-        console.log('Swagger write result: ' + result);
         return response.data;
     }
 
@@ -154,10 +160,12 @@ export async function multiStepInput(context: ExtensionContext) {
     let swaggerUri = __dirname +'/../src/swagger/'+state.connector.label.replace(' ','_')+'.apiDefinition.swagger.json';
     let apiPropsUri = __dirname + '/../src/swagger/'+state.connector.label.replace(' ','_')+'.apiProperties.json';
     let environment = 'b18407c8-99ae-49f4-8e65-f9a8543c10e3';
-
-    console.log('Connection Params: ' + state.connectionParams);
-    await createConnectorAndConnection(swaggerUri, state.connectionParams, apiPropsUri, environment);
-    await generateCode(swaggerUri, state.connector.label.replace(' ','_'));
+    try {
+        await createConnectorAndConnection(swaggerUri, state.connectionParams, apiPropsUri, environment);
+        await generateCode(swaggerUri, state.connector.label.replace(' ','_'));
+    } catch (error) {
+        vscode.window.showErrorMessage(<string>error);
+    }
 }
 
 
@@ -171,16 +179,18 @@ export async function generateCode(swaggerUri: string, name: string) {
     const scriptOptios = {
         cwd: __dirname+'/..'
     };
-
     const {stderr} = await exec(`npx openapi-generator-cli generate -g typescript-axios -i ${swaggerUri} -o ${rootDir}`, scriptOptios);
     if (stderr) {
-        console.log('GENDERATION ERROR: ' + stderr);
+        console.log('GENERATION ERROR: ' + stderr);
     }
-}
 
+    // Copy the authentication code
+    vscode.workspace.fs.copy(Uri.parse(__dirname + '/../src/auth.ts'), Uri.parse(rootDir + '/auth.ts'));
+}
 
 export async function createConnectorAndConnection(swaggerUri: string, connectionParameters: any, apiPropsUri: string,environment: string) {
     let sampleSwagger = JSON.parse(fs.readFileSync(swaggerUri, 'utf-8'));
+    let connectorName = sampleSwagger.info.title.replace(' ','_');
     let loginOptions: Options = {
         mode: "text",
         pythonPath: __dirname + '/../src/tools/paconn-cli/venv/bin/python3',
@@ -194,67 +204,68 @@ export async function createConnectorAndConnection(swaggerUri: string, connectio
     // 	vscode.window.showInformationMessage(message);
     // });
 
-    // TODO get the connection parameters
+    return new Promise((resolve, reject) => {
 
-    let createOptions = {...loginOptions, args: ['create', '-e', environment, '--api-prop', apiPropsUri, '--api-def', swaggerUri]};
-    let createPyshell = new PythonShell('paconn', createOptions);
-    createPyshell.on('message', function (message: string) {
-        console.log('Connector created!');
-    });
-
-    createPyshell.on('stderr', function (stderr: string) {
-        console.log('STANDARD ERROR IN CREATION: ');
-        console.log(stderr);
-        let apiRegistration = JSON.parse(stderr);
-        let runtimeUrl = apiRegistration.properties.primaryRuntimeUrl;
-        let connectorId = apiRegistration.name;
-        let connectionId = uuidv4();
-
-        let connectionOptions = {...loginOptions, args: [
-            'connection', 
-            '-e', environment,
-            '--con-params', JSON.stringify(connectionParameters),
-            '--cid', connectorId,
-            '--coid', connectionId
-        ]};
-        let connectionPyshell = new PythonShell('paconn', connectionOptions);
-        connectionPyshell.on('message', function (message: string) {
-            console.log('Connection created!');
-            console.log(message);
+        let createOptions = {...loginOptions, args: ['create', '-e', environment, '--api-prop', apiPropsUri, '--api-def', swaggerUri]};
+        let createPyshell = new PythonShell('paconn', createOptions);
+        createPyshell.on('message', function (message: string) {
+            console.log('Connector created!');
         });
 
-        connectionPyshell.on('stderr', function (stderr: string) {
-            console.log('STANDARD ERROR IN CONNECTION: ');
-            console.log(stderr);
-            let connectionProps = JSON.parse(stderr);
-            let connectionName = connectionProps.name;
-            let apimUrl = runtimeUrl + '/' + connectionName;
+        createPyshell.on('stderr', function (stderr: string) {
+            if (stderr.includes('Access token invalid')){ return reject(stderr); }
 
-            // Alter the swagger
-            sampleSwagger.host = apimUrl.replace("https://", "").split("/")[0];
-            sampleSwagger.basePath = "/" + apimUrl.replace("https://","").split("/").slice(1).join("/");
+            let apiRegistration = JSON.parse(stderr);
+            let runtimeUrl = apiRegistration.properties.primaryRuntimeUrl;
+            let connectorId = apiRegistration.name;
+            let connectionId = uuidv4();
+            let connectionOptions = {...loginOptions, args: [
+                'connection', 
+                '-e', environment,
+                '--con-params', JSON.stringify(connectionParameters),
+                '--cid', connectorId,
+                '--coid', connectionId
+            ]};
 
-            // Add auth parameter def
-            let authParameter = {
-                name: "authorization",
-                in: "header",
-                type: "string",
-                required: true
-            };
-            sampleSwagger.parameters['authParameter'] = authParameter;
-
-            // We also need a subscription key paramter I think
-
-            // Add the bearer auth to every path
-            Object.entries(sampleSwagger.paths).forEach(([key, value]) => {
-                Object.entries(<any>value).forEach(([method, methodVal]) => {
-                    ((<any>methodVal).parameters || []).push({"$ref": "#/parameters/authParameter"});
-                });
+            let connectionPyshell = new PythonShell('paconn', connectionOptions);
+            connectionPyshell.on('message', function (message: string) {
+                console.log(message);
+                return reject(message);
             });
 
-            fs.writeFileSync("/Users/porterhunley/connectors/src/swagger/newNsfSwagger.swagger.json", JSON.stringify(sampleSwagger));
+            connectionPyshell.on('stderr', function (stderr: string) {
+                let connectionProps = JSON.parse(stderr);
+                let connectionName = connectionProps.name;
+                let apimUrl = runtimeUrl + '/' + connectionName;
+
+                // Alter the swagger
+                sampleSwagger.host = apimUrl.replace("https://", "").split("/")[0];
+                sampleSwagger.basePath = "/" + apimUrl.replace("https://","").split("/").slice(1).join("/");
+
+                let authParameter = {
+                    name: "authorization",
+                    in: "header",
+                    type: "string",
+                    required: true
+                };
+                sampleSwagger.parameters['authParameter'] = authParameter;
+
+                // We also need a subscription key paramter I think
+
+                // Add the bearer auth to every path
+                Object.entries(sampleSwagger.paths).forEach(([key, value]) => {
+                    Object.entries(<any>value).forEach(([method, methodVal]) => {
+                        ((<any>methodVal).parameters || []).push({"$ref": "#/parameters/authParameter"});
+                    });
+                });
+                let swaggerPrefix = 
+
+                fs.writeFileSync(`/Users/porterhunley/connectors/src/swagger/${connectorName}.apiDefinition.swagger.json`, JSON.stringify(sampleSwagger));
+                return resolve("Connector created!");
+            });
         });
     });
+
 }
 
 

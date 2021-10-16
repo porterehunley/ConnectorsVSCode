@@ -10,19 +10,19 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:connectors.addConnector",
-    "onCommand:connectors.input"
+    "onCommand:connectors.test",
+    "onCommand:connectors.importConnector"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "connectors.addConnector",
-        "title": "Add Connector"
+        "command": "connectors.test",
+        "title": "Test"
       },
       {
-        "command": "connectors.input",
-        "title": "Get user input"
+        "command": "connectors.importConnector",
+        "title": "Import a Connector"
       }
     ]
   },
@@ -56,6 +56,7 @@
   },
   "dependencies": {
     "@openapitools/openapi-generator-cli": "^2.4.12",
+    "form-data": "^4.0.0",
     "npm": "^8.0.0",
     "python-shell": "^3.0.1",
     "uuid": "^8.3.2"
