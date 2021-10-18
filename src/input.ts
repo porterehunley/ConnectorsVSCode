@@ -45,7 +45,7 @@ export async function openSourceConnectorImport(context: ExtensionContext) {
 
 	async function collectInputs() {
 		const state = {} as Partial<State>;
-		await MultiStepInput.run(input => pickConnectorType(input, state));
+		await MultiStepInput.run(input => inputName(input, state));
 		return state as State;
 	}
 
@@ -54,8 +54,8 @@ export async function openSourceConnectorImport(context: ExtensionContext) {
 	async function pickConnectorType(input: MultiStepInput, state: Partial<State>) {
 		const pick = await input.showQuickPick({
 			title,
-			step: 1,
-			totalSteps: 3,
+			step: 2,
+			totalSteps: 4,
 			placeholder: 'Pick a connector type',
 			items: connectorTypes,
 			activeItem: typeof state.connectorType !== 'string' ? state.connectorType: undefined,
@@ -70,7 +70,7 @@ export async function openSourceConnectorImport(context: ExtensionContext) {
 		const connectors = await getConnectors(state.connectorType || 'custom-connectors');
 		state.connector = await input.showQuickPick({
 			title,
-			step: 2,
+			step: 3,
 			totalSteps: 4,
 			placeholder: 'Pick a runtime',
 			items: connectors,
@@ -83,7 +83,7 @@ export async function openSourceConnectorImport(context: ExtensionContext) {
 
     async function createConnectionParamsBase(input: MultiStepInput, state: Partial<State>) {
         let apiProps= await getApiProps(state.connector?.label || 'NSF Data', state.connectorType || 'custom-connectors');
-        await getSwagger(state.connector?.label || 'NSF Data', state.connectorType || 'custom-connectors');
+        await getSwagger(state.connector?.label || 'NSF Data', state.connectorType || 'custom-connectors', state.name?.replace(' ', '_') || 'default');
         state.connectionParams = apiProps.properties.connectionParams || {};
         let connectionParams = <{name: string}[]>Object.keys(apiProps.properties.connectionParameters || {}).map(key => ({...apiProps.properties.connectionParameters[key], name: key}));
         return createConnectionParamsInput(input, state, connectionParams);
@@ -91,12 +91,12 @@ export async function openSourceConnectorImport(context: ExtensionContext) {
 
     async function createConnectionParamsInput(input: MultiStepInput, state: Partial<State>, connectionParameters: {name: string}[]): Promise<any> {
         if (connectionParameters.length === 0) {
-            return (input: MultiStepInput) => inputName(input, state);
+            return;
         }
         let param = connectionParameters[0];
         state.connectionParams[param.name] = await input.showInputBox({
             title,
-            step: 3,
+            step: 4,
             totalSteps: 4,
             value: typeof state.connectionParams[param.name] === 'string' ? state.connectionParams[param.name] : '',
             prompt: 'Input ' + param.name,
@@ -110,13 +110,15 @@ export async function openSourceConnectorImport(context: ExtensionContext) {
 	async function inputName(input: MultiStepInput, state: Partial<State>) {
 		state.name = await input.showInputBox({
 			title,
-			step: 3,
+			step: 1,
 			totalSteps: 4,
 			value: state.name || '',
 			prompt: 'Choose a unique name for the Connector',
 			validate: validateNameIsUnique,
 			shouldResume: shouldResume
 		});
+
+        return (input: MultiStepInput) => pickConnectorType(input, state);
 	}
 
 	function shouldResume() {
@@ -146,9 +148,10 @@ export async function openSourceConnectorImport(context: ExtensionContext) {
         return response.data;
     }
 
-    async function getSwagger(connectorName: string, connectorType: string): Promise<any> {
+    async function getSwagger(connectorName: string, connectorType: string, name:string): Promise<any> {
         let swaggerUrl = `https://raw.githubusercontent.com/microsoft/powerplatformconnectors/master/${connectorType}/${connectorName}/apiDefinition.swagger.json`;
         let response = await axios.default.get(swaggerUrl);
+        response.data.info.title = name;
 
         let result = fs.writeFileSync(__dirname +'/../src/swagger/'+connectorName.replace(' ','_')+'.apiDefinition.swagger.json', JSON.stringify(response.data));
         return response.data;
@@ -162,7 +165,7 @@ export async function openSourceConnectorImport(context: ExtensionContext) {
     let environment = 'b18407c8-99ae-49f4-8e65-f9a8543c10e3';
     try {
         await createConnectorAndConnection(swaggerUri, state.connectionParams, apiPropsUri, environment);
-        await generateCode(swaggerUri, state.connector.label.replace(' ','_'));
+        await generateCode(swaggerUri, state.name.replace(' ','_'));
     } catch (error) {
         vscode.window.showErrorMessage(<string>error);
     }
@@ -188,9 +191,8 @@ export async function generateCode(swaggerUri: string, name: string) {
     vscode.workspace.fs.copy(Uri.parse(__dirname + '/../src/auth.ts'), Uri.parse(rootDir + '/auth.ts'));
 }
 
-export async function createConnectorAndConnection(swaggerUri: string, connectionParameters: any, apiPropsUri: string,environment: string) {
+export async function createConnectorAndConnection(swaggerUri: string, connectionParameters: any, apiPropsUri: string, environment: string) {
     let sampleSwagger = JSON.parse(fs.readFileSync(swaggerUri, 'utf-8'));
-    let connectorName = sampleSwagger.info.title.replace(' ','_');
     let loginOptions: Options = {
         mode: "text",
         pythonPath: __dirname + '/../src/tools/paconn-cli/venv/bin/python3',
@@ -214,6 +216,7 @@ export async function createConnectorAndConnection(swaggerUri: string, connectio
 
         createPyshell.on('stderr', function (stderr: string) {
             if (stderr.includes('Access token invalid')){ return reject(stderr); }
+            console.log(stderr);
 
             let apiRegistration = JSON.parse(stderr);
             let runtimeUrl = apiRegistration.properties.primaryRuntimeUrl;
@@ -234,6 +237,7 @@ export async function createConnectorAndConnection(swaggerUri: string, connectio
             });
 
             connectionPyshell.on('stderr', function (stderr: string) {
+                console.log(stderr);
                 let connectionProps = JSON.parse(stderr);
                 let connectionName = connectionProps.name;
                 let apimUrl = runtimeUrl + '/' + connectionName;
@@ -260,7 +264,7 @@ export async function createConnectorAndConnection(swaggerUri: string, connectio
                 });
                 let swaggerPrefix = 
 
-                fs.writeFileSync(`/Users/porterhunley/connectors/src/swagger/${connectorName}.apiDefinition.swagger.json`, JSON.stringify(sampleSwagger));
+                fs.writeFileSync(swaggerUri, JSON.stringify(sampleSwagger));
                 return resolve("Connector created!");
             });
         });
